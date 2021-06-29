@@ -1,0 +1,26 @@
+name: Build And Test
+
+on:
+  push:
+    branches: 
+      - master
+  pull_request:
+    branches:
+      - master
+  # Запуск только при публиковании нового релиза
+
+jobs:
+  build_and_test:
+    # Первую джобу смело можем копипастить из экшена для тестирования
+    runs-on: [ubuntu-latest]
+    steps:
+        # Чекаутим код
+      - uses: actions/checkout@master
+      - name: Install req
+        run: sudo apt-get install gcc cmake python3
+      - name: Run build
+        run: |
+          cd doc
+          bash build.sh
+      - name: Run test
+        run: python3 test/test.py
