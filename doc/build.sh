@@ -70,6 +70,11 @@ test_bee2evp(){
   ./openssl engine -c -t bee2evp
 }
 
+add_path(){
+  echo "export LD_LIBRARY_PATH="$local/lib:${LD_LIBRARY_PATH:-}"" >> ${HOME}/.bashrc
+  echo "export PATH=$local/bin:${PATH}" >> ${HOME}/.bashrc
+}
+
 install_prereq
 
 clean
@@ -79,3 +84,4 @@ build_openssl
 build_bee2evp
 attach_bee2evp
 test_bee2evp
+add_path
