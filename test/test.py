@@ -525,9 +525,12 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 	else:
 		cmd = ('s_server -key {} -cert {} -tls1_2 >> {}'
 				.format(priv, cert, server_log_file))
-
-	global server_cert
-	server_cert = openssl(cmd, type_=1)
+	try:
+		global server_cert
+		server_cert = openssl(cmd, type_=1)
+	except:
+		with open(server_log_file, 'r') as f1:
+			print(f1.read())
 
 def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 	for ciphersuite in ciphersuites:
@@ -538,7 +541,11 @@ def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 			cmd = ('s_client -cipher {} -tls1_2 2>{}'
 					.format(ciphersuite, client_log_file))
 
-		openssl(cmd, prefix='echo test_{}={} |'.format(curve, ciphersuite), type_=2)
+		try:
+			openssl(cmd, prefix='echo test_{}={} |'.format(curve, ciphersuite), type_=2)
+		except:
+			with open(client_log_file, 'r') as f1:
+				print(f1.read())			
 
 def btls_server_nocert(server_log_file):
 	cmd = ('s_server -tls1_2 -psk 123456 -psk_hint 123 -nocert >> {}'
