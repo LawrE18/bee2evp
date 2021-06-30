@@ -59,7 +59,9 @@ build_bee2evp(){
 }
 
 attach_bee2evp(){
-  cp $bee2evp/doc/bee2evp.cnf $local/openssl.cnf
+  mv $local/openssl.cnf.dist $local/openssl.cnf
+  sed -i "/\[ new\_oids\ ]/i openssl_conf = openssl_init\n[ openssl_init ]\nengines = engine_section\n[ engine_section ]\nbee2evp = bee2evp_section\n[ bee2evp_section ]\nengine_id = bee2evp\ndynamic_path = $local/lib/libbee2evp.so\ndefault_algorithms = ALL" $local/openssl.cnf
+  #cp $bee2evp/doc/bee2evp.cnf $local/openssl.cnf
   sed -i "s|#path/to/bee2evp|$local/lib/libbee2evp.so|g" $local/openssl.cnf  
 }
 
