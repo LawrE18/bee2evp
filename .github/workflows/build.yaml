@@ -36,5 +36,6 @@ jobs:
           pwd
           python3 ./test/test.py
       - name : Logs
+          run: |
           cat ~/s_log.txt
           cat ~/c_log.txt
