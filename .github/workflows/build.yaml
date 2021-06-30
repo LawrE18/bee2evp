@@ -32,6 +32,7 @@ jobs:
           ls -al
       - name: Run test
         run: |
+          nc -l -p 4433
           export LD_LIBRARY_PATH="./build/local/lib:${LD_LIBRARY_PATH:-}"
           pwd
           python3 ./test/test.py
