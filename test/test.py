@@ -523,11 +523,13 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 		cmd = ('s_server -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123  >> {}'
 				.format(priv, cert, server_log_file))
 	else:
-		cmd = ('s_server -key {} -cert {} -tls1_2 >> {}'
+		cmd = ('s_server -accept 443 -key {} -cert {} -tls1_2 >> {}'
 				.format(priv, cert, server_log_file))
 	try:
 		global server_cert
 		server_cert = openssl(cmd, type_=1)
+		with open(server_log_file, 'r') as f1:
+			print(f1.read())
 	except:
 		with open(server_log_file, 'r') as f1:
 			print(f1.read())
@@ -538,11 +540,13 @@ def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 			cmd = ('s_client -cipher {} -tls1_2 -psk 123456 2>{}'
 					.format(ciphersuite, client_log_file))
 		else:
-			cmd = ('s_client -cipher {} -tls1_2 2>{}'
+			cmd = ('s_client -connect 127.0.0.1:443 -cipher {} -tls1_2 2>{}'
 					.format(ciphersuite, client_log_file))
 
 		try:
 			openssl(cmd, prefix='echo test_{}={} |'.format(curve, ciphersuite), type_=2)
+			with open(client_log_file, 'r') as f1:
+				print(f1.read())
 		except:
 			with open(client_log_file, 'r') as f1:
 				print(f1.read())			
