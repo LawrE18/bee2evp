@@ -633,7 +633,13 @@ def test_btls():
 		for curves in curves_list_bdhepsk:
 			retcode = (server_out.find('test_{}={}'.format(curves, ciphersuite)) != -1)
 			test_result('	{}'.format(curves), retcode)
-
+	
+	print('#######')
+	with open(server_log_file, 'r') as f:
+		print(f.read())
+	print('#######')
+	with open(client_log_file, 'r') as f:
+		print(f.read())
 	shutil.rmtree(tmpdirname)
 
 if __name__ == '__main__':
