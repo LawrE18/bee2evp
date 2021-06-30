@@ -35,7 +35,7 @@ jobs:
           export LD_LIBRARY_PATH="./build/local/lib:${LD_LIBRARY_PATH:-}"
           pwd
           python3 ./test/test.py
-      - name : Logs
-          run: |
+      - name: Logs
+        run: |
           cat ~/s_log.txt
           cat ~/c_log.txt
