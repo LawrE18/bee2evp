@@ -34,4 +34,6 @@ jobs:
         run: |
           export LD_LIBRARY_PATH="./build/local/lib:${LD_LIBRARY_PATH:-}"
           pwd
+          ./build/local/bin/openssl genpkey -algorithm bign -pkeyopt params:bign-curve256v1 -out priv256.key
+          ./build/local/bin/openssl req -x509 -subj "/CN=www.example.org/O=BCrypto/C=BY/ST=MINSK" -new -key priv256.key -nodes -out cert256.pem
           python3 ./test/test.py
