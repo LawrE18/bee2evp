@@ -559,7 +559,8 @@ def btls_client_nocert(client_log_file, curves_list, ciphersuites):
 			openssl(cmd, prefix='echo test_{}={} |'.format(curves, ciphersuite), type_=2)
 
 def test_btls():
-	tmpdirname = tempfile.mkdtemp()
+	#tmpdirname = tempfile.mkdtemp()
+	tmpdirname = home
 	server_log_file = os.path.join(tmpdirname, 's_log.txt')
 	client_log_file = os.path.join(tmpdirname, 'c_log.txt')
 
