@@ -523,7 +523,7 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 		cmd = ('s_server -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123  >> {}'
 				.format(priv, cert, server_log_file))
 	else:
-		cmd = ('s_server -accept 443 -key {} -cert {} -tls1_2 >> {}'
+		cmd = ('s_server -key {} -cert {} -tls1_2 >> {}'
 				.format(priv, cert, server_log_file))
 	try:
 		global server_cert
@@ -540,7 +540,7 @@ def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 			cmd = ('s_client -cipher {} -tls1_2 -psk 123456 2>{}'
 					.format(ciphersuite, client_log_file))
 		else:
-			cmd = ('s_client -connect 127.0.0.1:443 -cipher {} -tls1_2 2>{}'
+			cmd = ('s_client -cipher {} -tls1_2 2>{}'
 					.format(ciphersuite, client_log_file))
 
 		try:
@@ -595,7 +595,7 @@ def test_btls():
 		s_nopsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, curve))
 		s_nopsk.run()
-		time.sleep(1)
+		time.sleep(3)
 		c_nopsk = threading.Thread(target=btls_client_cert, 
 						args=(client_log_file, curve, noPSK_cipherssuites))
 		c_nopsk.run()
