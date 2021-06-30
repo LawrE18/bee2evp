@@ -3,7 +3,6 @@
 ###############################################################################
 
 HOME = ./out
-RANDFILE = $HOME/.rnd
 openssl_conf = openssl_init
 
 [openssl_init]
