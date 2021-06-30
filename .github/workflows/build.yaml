@@ -17,7 +17,7 @@ jobs:
         # Чекаутим код
       - uses: actions/checkout@master
       - name: Install req
-        run: sudo apt-get install gcc cmake python3
+        run: sudo apt-get install gcc cmake python3 python
       - name: Run build
         run: |
           cd doc
@@ -28,5 +28,9 @@ jobs:
           which openssl
           echo $HOME
           ls -al
+          cd ./build/local
+          ls -al
       - name: Run test
-        run: python3 ./test/test.py
+        run: |
+          pwd
+          python3 ./test/test.py
