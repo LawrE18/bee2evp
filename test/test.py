@@ -446,6 +446,7 @@ def test_belt_kwp_dwp():
 	test_result('belt-dwp256', retcode)
 
 	shutil.rmtree(tmpdirname)
+
 def btls_gen_privkey(privfile, curve):
 	cmd = 'genpkey -algorithm bign -pkeyopt params:{} -out {}'.format(curve, privfile)
 	retcode, block, er__ = openssl(cmd)
@@ -603,7 +604,7 @@ def test_btls():
 	print('#######')
 	with open(client_log_file, 'r') as f2:
 		print(f2.read())'''
-	shutil.rmtree(tmpdirname)
+	#shutil.rmtree(tmpdirname)
 
 if __name__ == '__main__':
 	test_version()

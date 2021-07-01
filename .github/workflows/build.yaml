@@ -33,9 +33,7 @@ jobs:
       - name: Run test
         run: |
           export LD_LIBRARY_PATH="./build/local/lib:${LD_LIBRARY_PATH:-}"
-          sudo ldconfig
           python3 ./test/test.py
-      - name: Logs
+      - name: Test genpkey
         run: |
-          cat ~/s_log.txt
-          cat ~/c_log.txt
+          openssl genpkey -algorithm bign -pkeyopt params:bign-curve256v1 -out priv256v1.key
