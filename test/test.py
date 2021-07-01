@@ -467,8 +467,8 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 		cmd = ('s_server -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123'
 				.format(priv, cert)) #, server_log_file))
 	else:
-		cmd = ('s_server -key {} -cert {} -tls1_2'
-				.format(priv, cert))
+		cmd = ('s_server -key {} -cert {} -tls1_2 >> {}'
+				.format(priv, cert, server_log_file))
 	try:
 		global server_cert
 		server_cert = openssl(cmd, type_=1, echo=True)
@@ -490,11 +490,8 @@ def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 
 		try:
 			openssl(cmd, prefix='echo test_{}={} |'.format(curve, ciphersuite), type_=2)
-			with open(client_log_file, 'r') as f1:
-				print(f1.read())
 		except:
-			with open(client_log_file, 'r') as f1:
-				print(f1.read())			
+			print("ERRRROOOORRRR")		
 
 def btls_server_nocert(server_log_file):
 	cmd = ('s_server -tls1_2 -psk 123456 -psk_hint 123 -nocert >> {}'
@@ -607,9 +604,10 @@ def test_btls():
 	print('#######')
 	with open(client_log_file, 'r') as f2:
 		print(f2.read())'''
+	print('SERVER')
 	with open(server_log_file, 'r') as f1:
 		print(f1.read())
-	print('#######')
+	print('CLIENT')
 	with open(client_log_file, 'r') as f2:
 		print(f2.read())
 	#shutil.rmtree(tmpdirname)
