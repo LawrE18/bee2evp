@@ -34,7 +34,7 @@ jobs:
         run: |
           export LD_LIBRARY_PATH="./build/local/lib:${LD_LIBRARY_PATH:-}"
           sudo ldconfig
-          sudo python3 ./test/test.py
+          python3 ./test/test.py
       - name: Logs
         run: |
           cat ~/s_log.txt

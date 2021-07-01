@@ -520,19 +520,19 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 	btls_issue_cert(priv, cert)
 
 	if psk:
-		cmd = ('s_server -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123  >> {}'
-				.format(priv, cert, server_log_file))
+		cmd = ('s_server -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123'
+				.format(priv, cert) #, server_log_file))
 	else:
-		cmd = ('s_server -key {} -cert {} -tls1_2 >> {}'
-				.format(priv, cert, server_log_file))
+		cmd = ('s_server -key {} -cert {} -tls1_2'
+				.format(priv, cert) #, server_log_file))
 	try:
 		global server_cert
 		server_cert = openssl(cmd, type_=1, echo=True)
 		#with open(server_log_file, 'r') as f1:
 		#	print(f1.read())
 	except:
-		with open(server_log_file, 'r') as f1:
-			print(f1.read())
+		#with open(server_log_file, 'r') as f1:
+		#	print(f1.read())
 
 def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 	for ciphersuite in ciphersuites:
