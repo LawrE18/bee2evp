@@ -33,8 +33,7 @@ jobs:
       - name: Run test
         run: |
           export LD_LIBRARY_PATH="./build/local/lib:${LD_LIBRARY_PATH:-}"
-          pwd
-          sudo python3 ./test/test.py
+          python3 ./test/test.py
       - name: Logs
         run: |
           cat ~/s_log.txt
