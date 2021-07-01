@@ -590,8 +590,13 @@ def test_btls():
 	nocert_ciphersuites = bdhePSK_ciphersuites
 	cert_ciphersuites = bdhtPSK_ciphersuites + noPSK_cipherssuites
 
+
+	s_nopsk = threading.Thread(target=btls_server_cert, 
+						args=(tmpdirname, server_log_file, 'bign-curve256v1'))
+	s_nopsk.run()
+
 	# test NO_PSK ciphersuites
-	for curve in curves_list:
+	'''for curve in curves_list:
 		s_nopsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, curve))
 		s_nopsk.run()
@@ -602,10 +607,10 @@ def test_btls():
 
 		# kill openssl s_server
 		os.killpg(os.getpgid(server_cert.pid), signal.SIGTERM)
-	print('End NO_PSK')
+	print('End NO_PSK')'''
 
 	# test BDHTPSK ciphersuites
-	for curve in curves_list:
+	'''for curve in curves_list:
 		s_dhtpsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, curve, True))
 		s_dhtpsk.run()
@@ -616,10 +621,10 @@ def test_btls():
 
 		# kill openssl s_server
 		os.killpg(os.getpgid(server_cert.pid), signal.SIGTERM)
-	print('End BDHTPSK')
+	print('End BDHTPSK')'''
 
 	# test BDHEPSK ciphersuites
-	s_dhepsk = threading.Thread(target=btls_server_nocert, 
+	'''s_dhepsk = threading.Thread(target=btls_server_nocert, 
 					args=(server_log_file,))
 	s_dhepsk.run()
 	#time.sleep(3)
@@ -629,7 +634,7 @@ def test_btls():
 
 	# kill openssl s_server
 	os.killpg(os.getpgid(server_nocert.pid), signal.SIGTERM)
-	print('End BDHEPSK')
+	print('End BDHEPSK')'''
 
 	with open(server_log_file, 'r') as f:
 		server_out = f.read()
