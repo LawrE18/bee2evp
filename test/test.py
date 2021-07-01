@@ -489,7 +489,8 @@ def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 					.format(ciphersuite, client_log_file))
 
 		try:
-			openssl(cmd, prefix='echo test_{}={} |'.format(curve, ciphersuite), type_=2)
+			out = openssl(cmd, prefix='echo test_{}={} |'.format(curve, ciphersuite), type_=2, echo=True)
+			print(out)
 		except:
 			print("ERRRROOOORRRR")		
 
