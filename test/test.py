@@ -541,7 +541,10 @@ def test_btls():
 	s_nopsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, 'bign-curve256v1'))
 	s_nopsk.run()
-
+	time.sleep(3)
+	c_nopsk = threading.Thread(target=btls_client_cert, 
+						args=(client_log_file, 'bign-curve256v1', ['DHE-BIGN-WITH-BELT-DWP-HBELT']))
+	c_nopsk.run()
 	# test NO_PSK ciphersuites
 	'''for curve in curves_list:
 		s_nopsk = threading.Thread(target=btls_server_cert, 
