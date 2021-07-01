@@ -521,10 +521,10 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 
 	if psk:
 		cmd = ('s_server -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123'
-				.format(priv, cert) #, server_log_file))
+				.format(priv, cert)) #, server_log_file))
 	else:
 		cmd = ('s_server -key {} -cert {} -tls1_2'
-				.format(priv, cert) #, server_log_file))
+				.format(priv, cert))
 	try:
 		global server_cert
 		server_cert = openssl(cmd, type_=1, echo=True)
