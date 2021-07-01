@@ -36,6 +36,7 @@ def test_result(test_name, retcode):
 def test_version():
 	retcode, out, err__ = openssl('version')
 	test_result('version', retcode)
+	print(err__)
 	print(out.decode())
 
 def test_engine():
