@@ -39,4 +39,5 @@ jobs:
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl asn1parse -in cert.pem
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_server -key priv256.key -cert cert.pem -tls1_2 &
           sleep 6
-          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2
+      - name: Run client
+          run: /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2
