@@ -528,8 +528,8 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 	try:
 		global server_cert
 		server_cert = openssl(cmd, type_=1, echo=True)
-		with open(server_log_file, 'r') as f1:
-			print(f1.read())
+		#with open(server_log_file, 'r') as f1:
+		#	print(f1.read())
 	except:
 		with open(server_log_file, 'r') as f1:
 			print(f1.read())
