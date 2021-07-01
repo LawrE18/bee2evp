@@ -516,9 +516,9 @@ def test_btls():
 	tmpdirname = tempfile.mkdtemp()
 	#tmpdirname = home
 	server_log_file = os.path.join(tmpdirname, 's_log.txt')
-	open(server_log_file, 'w')
+	#open(server_log_file, 'w')
 	client_log_file = os.path.join(tmpdirname, 'c_log.txt')
-	open(client_log_file, 'w')
+	#open(client_log_file, 'w')
 
 	# curves list for test BDHEPSK
 	curves_list_bdhepsk = ['NULL', 'bign-curve256v1', 'bign-curve384v1', 'bign-curve512v1',
@@ -539,7 +539,7 @@ def test_btls():
 	s_nopsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, 'bign-curve256v1'))
 	s_nopsk.run()
-	time.sleep(3)
+	time.sleep(5)
 	c_nopsk = threading.Thread(target=btls_client_cert, 
 						args=(client_log_file, 'bign-curve256v1', ['DHE-BIGN-WITH-BELT-DWP-HBELT']))
 	c_nopsk.run()
