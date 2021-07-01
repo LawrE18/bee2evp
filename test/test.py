@@ -573,7 +573,9 @@ def test_btls():
 	tmpdirname = tempfile.mkdtemp()
 	#tmpdirname = home
 	server_log_file = os.path.join(tmpdirname, 's_log.txt')
+	open(server_log_file, 'w')
 	client_log_file = os.path.join(tmpdirname, 'c_log.txt')
+	open(client_log_file, 'w')
 
 	# curves list for test BDHEPSK
 	curves_list_bdhepsk = ['NULL', 'bign-curve256v1', 'bign-curve384v1', 'bign-curve512v1',
