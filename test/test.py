@@ -611,7 +611,7 @@ def test_btls():
 		print(f1.read())
 	print('#######')
 	with open(client_log_file, 'r') as f2:
-		print(f2.read())'''
+		print(f2.read())
 	#shutil.rmtree(tmpdirname)
 
 if __name__ == '__main__':
