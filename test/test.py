@@ -36,7 +36,6 @@ def test_result(test_name, retcode):
 def test_version():
 	retcode, out, err__ = openssl('version')
 	test_result('version', retcode)
-	print(err__)
 	print(out.decode())
 
 def test_engine():
@@ -528,7 +527,7 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 				.format(priv, cert, server_log_file))
 	try:
 		global server_cert
-		server_cert = openssl(cmd, type_=1)
+		server_cert = openssl(cmd, type_=1, echo=True)
 		with open(server_log_file, 'r') as f1:
 			print(f1.read())
 	except:
@@ -571,8 +570,8 @@ def btls_client_nocert(client_log_file, curves_list, ciphersuites):
 			openssl(cmd, prefix='echo test_{}={} |'.format(curves, ciphersuite), type_=2)
 
 def test_btls():
-	#tmpdirname = tempfile.mkdtemp()
-	tmpdirname = home
+	tmpdirname = tempfile.mkdtemp()
+	#tmpdirname = home
 	server_log_file = os.path.join(tmpdirname, 's_log.txt')
 	client_log_file = os.path.join(tmpdirname, 'c_log.txt')
 
@@ -653,7 +652,7 @@ def test_btls():
 	print('#######')
 	with open(client_log_file, 'r') as f2:
 		print(f2.read())
-	#shutil.rmtree(tmpdirname)
+	shutil.rmtree(tmpdirname)
 
 if __name__ == '__main__':
 	test_version()
