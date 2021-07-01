@@ -8,7 +8,6 @@ env:
     - OPENSSL_BRANCH=OpenSSL_1_1_1i
     - BEE2_BRANCH=master
     - PREFIX=${HOME}/usr/local
-    - CODECOV_TOKEN="14692d3c-1602-496f-8bb4-24797238978d"
 
 branches:
   only:
@@ -55,9 +54,5 @@ script:
   - make
   - make install > build.log 2>&1 || (cat build.log && exit 1)
   - cp -a ../test/. .
-  - lcov -c -i -d . -o coverage_base.info
   - python test.py
-  - lcov -c -d . -o coverage_test.info
-  - lcov -a coverage_base.info -a coverage_test.info -o coverage.info
   - LD_LIBRARY_PATH=$(echo "$LD_LIBRARY_PATH" | sed -e "s|$PREFIX/lib:||")
-  - bash <(curl -s https://codecov.io/bash) -f coverage.info
