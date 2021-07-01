@@ -595,7 +595,7 @@ def test_btls():
 		s_nopsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, curve))
 		s_nopsk.run()
-		time.sleep(5)
+		time.sleep(3)
 		c_nopsk = threading.Thread(target=btls_client_cert, 
 						args=(client_log_file, curve, noPSK_cipherssuites))
 		c_nopsk.run()
@@ -609,7 +609,7 @@ def test_btls():
 		s_dhtpsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, curve, True))
 		s_dhtpsk.run()
-		time.sleep(5)
+		time.sleep(3)
 		c_dhtpsk = threading.Thread(target=btls_client_cert, 
 						args=(client_log_file, curve, bdhtPSK_ciphersuites, True))
 		c_dhtpsk.run()
@@ -622,7 +622,7 @@ def test_btls():
 	s_dhepsk = threading.Thread(target=btls_server_nocert, 
 					args=(server_log_file,))
 	s_dhepsk.run()
-	time.sleep(5)
+	time.sleep(3)
 	c_dhepsk = threading.Thread(target=btls_client_nocert, 
 					args=(client_log_file, curves_list_bdhepsk, bdhePSK_ciphersuites))
 	c_dhepsk.run()
