@@ -33,4 +33,9 @@ jobs:
       - name: Run test
         run: |
           export LD_LIBRARY_PATH="./build/local/lib:${LD_LIBRARY_PATH:-}"
-          python3 ./test/test.py
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl genpkey -algorithm bign -pkeyopt params:bign-curve256v1 -out priv256.key
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl req -x509 -subj "/CN=www.example.org/O=BCrypto/C=BY/ST=MINSK" -new -key priv256.key -nodes -out cert.pem
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_server -key priv256.key -cert cert.pem -tls1_2 >> s_log.txt
+          echo test_bign-curve256v1=DHE-BIGN-WITH-BELT-DWP-HBELT | /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 2> c_log.txt
+          cat s_log.txt
+          cat c_log.txt
