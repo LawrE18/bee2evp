@@ -40,4 +40,6 @@ jobs:
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -showcerts -state
       - name: Cat
         if: ${{ failure() }}
-        run: cat $HOME/out.txt
+        run: |
+          cat $HOME/out.txt
+          cat /home/runner/work/bee2evp/bee2evp/cert.pem | /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl x509 -noout -enddate
