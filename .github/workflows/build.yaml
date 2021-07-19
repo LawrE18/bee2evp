@@ -36,4 +36,4 @@ jobs:
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_server -key priv256.key -cert cert.pem -tls1_2 -state > /tmp/out.txt &
           sleep 3
           export LD_LIBRARY_PATH="/home/runner/work/bee2evp/bee2evp/build/local/lib:${LD_LIBRARY_PATH:-}"
-          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -showcerts -state && cat /tmp/out.txt
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -showcerts -state; cat /tmp/out.txt
