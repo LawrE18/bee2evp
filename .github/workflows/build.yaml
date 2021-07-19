@@ -15,7 +15,7 @@ jobs:
         # Чекаутим код
       - uses: actions/checkout@master
       - name: Install req
-        run: sudo apt-get install gcc cmake python3 python
+        run: sudo apt-get install gcc cmake python3 python ca-certificates
       - name: Run build
         run: |
           cd doc
@@ -37,7 +37,7 @@ jobs:
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_server -key priv256.key -cert cert.pem -tls1_2 -state > $HOME/out.txt -4 &
           sleep 3
           export LD_LIBRARY_PATH="/home/runner/work/bee2evp/bee2evp/build/local/lib:${LD_LIBRARY_PATH:-}"
-          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -showcerts -state
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -nbio -showcerts -state
       - name: Cat
         if: ${{ failure() }}
         run: |
