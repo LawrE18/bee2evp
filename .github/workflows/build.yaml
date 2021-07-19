@@ -7,11 +7,9 @@ on:
   pull_request:
     branches:
       - master
-  # Запуск только при публиковании нового релиза
 
 jobs:
   build_and_test:
-    # Первую джобу смело можем копипастить из экшена для тестирования
     runs-on: [ubuntu-latest]
     steps:
         # Чекаутим код
