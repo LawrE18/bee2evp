@@ -34,7 +34,7 @@ jobs:
           export SHELL=/bin/sh
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl genpkey -algorithm bign -pkeyopt params:bign-curve256v1 -out priv256.key
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl req -x509 -subj "/CN=www.example.org/O=BCrypto/C=BY/ST=MINSK" -new -key priv256.key -nodes -out cert.pem
-          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_server -key priv256.key -cert cert.pem -tls1_2 -state > /tmp/out.txt &
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_server -key priv256.key -cert cert.pem -tls1_2 -state > /tmp/out.txt -4 &
           sleep 3
           export LD_LIBRARY_PATH="/home/runner/work/bee2evp/bee2evp/build/local/lib:${LD_LIBRARY_PATH:-}"
-          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -showcerts -state && cat /tmp/out.txt
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -showcerts -state | openssl x509 -noout -dates
