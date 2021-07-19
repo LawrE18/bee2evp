@@ -40,4 +40,4 @@ jobs:
       - name: Run client
         run: |
           export LD_LIBRARY_PATH="/home/runner/work/bee2evp/bee2evp/build/local/lib:${LD_LIBRARY_PATH:-}"
-          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -debug
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -debug -showcerts -state
