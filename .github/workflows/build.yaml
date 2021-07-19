@@ -35,9 +35,9 @@ jobs:
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl asn1parse -in priv256.key
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl req -x509 -subj "/CN=www.example.org/O=BCrypto/C=BY/ST=MINSK" -new -key priv256.key -nodes -out cert.pem
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl asn1parse -in cert.pem
-          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_server -key priv256.key -cert cert.pem -tls1_2 -ign_eof &
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_server -key priv256.key -cert cert.pem -tls1_2 -debug &
           sleep 3
       - name: Run client
         run: |
           export LD_LIBRARY_PATH="/home/runner/work/bee2evp/bee2evp/build/local/lib:${LD_LIBRARY_PATH:-}"
-          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -ign_eof
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -cipher DHE-BIGN-WITH-BELT-DWP-HBELT -tls1_2 -debug
