@@ -45,3 +45,5 @@ jobs:
           export SHELL=/bin/sh
           cat $HOME/out.txt
           cat /home/runner/work/bee2evp/bee2evp/cert.pem | /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl x509 -noout -enddate
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl ciphers
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl engine -c -t bee2evp
