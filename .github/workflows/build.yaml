@@ -33,7 +33,6 @@ jobs:
           export SHELL=/bin/sh
           python3 ./test/test.py
       - name: Cat
-        if: ${{ failure() }}
         run: |
           cat s_log.txt
           cat c_log.txt
