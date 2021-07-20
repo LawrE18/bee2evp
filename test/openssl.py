@@ -21,6 +21,7 @@ OPENSSL_EXE_PATH = cwd + '../build/local/bin/openssl'
 
 def openssl(cmd, prefix='', echo=False, type_=0):
 	cmd = '{} {} {}'.format(prefix, OPENSSL_EXE_PATH, cmd)
+	print(OPENSSL_EXE_PATH)
 	if echo:
 		print(cmd)
 
