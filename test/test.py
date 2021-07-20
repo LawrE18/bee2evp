@@ -521,10 +521,10 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 	btls_issue_cert(priv, cert)
 
 	if psk:
-		cmd = ('s_server -port 8443 -state -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123  >> {}'
+		cmd = ('s_server -port 2222 -state -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123  >> {}'
 				.format(priv, cert, server_log_file))
 	else:
-		cmd = ('s_server -port 8443 -state -key {} -cert {} -tls1_2 >> {}'
+		cmd = ('s_server -port 2222 -state -key {} -cert {} -tls1_2 >> {}'
 				.format(priv, cert, server_log_file))
 
 	global server_cert
@@ -533,16 +533,16 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 	for ciphersuite in ciphersuites:
 		if psk:
-			cmd = ('s_client -connect 127.0.0.1:8443 -state -cipher {} -tls1_2 -psk 123456 2>{}'
+			cmd = ('s_client -connect 127.0.0.1:2222 -state -cipher {} -tls1_2 -psk 123456 2>{}'
 					.format(ciphersuite, client_log_file))
 		else:
-			cmd = ('s_client -connect 127.0.0.1:8443 -state -cipher {} -tls1_2 2>{}'
+			cmd = ('s_client -connect 127.0.0.1:2222 -state -cipher {} -tls1_2 2>{}'
 					.format(ciphersuite, client_log_file))
 
 		openssl(cmd, prefix='echo test_{}={} |'.format(curve, ciphersuite), type_=2)
 
 def btls_server_nocert(server_log_file):
-	cmd = ('s_server -port 8443 -state -tls1_2 -psk 123456 -psk_hint 123 -nocert >> {}'
+	cmd = ('s_server -port 2222 -state -tls1_2 -psk 123456 -psk_hint 123 -nocert >> {}'
 			.format(server_log_file))
 
 	global server_nocert
@@ -552,10 +552,10 @@ def btls_client_nocert(client_log_file, curves_list, ciphersuites):
 	for ciphersuite in ciphersuites:
 		for curves in curves_list:
 			if curves != 'NULL':
-				cmd = ('s_client -connect 127.0.0.1:8443 -cipher {} -state -tls1_2 -curves {} -psk 123456 2>{}'
+				cmd = ('s_client -connect 127.0.0.1:2222 -cipher {} -state -tls1_2 -curves {} -psk 123456 2>{}'
 						.format(ciphersuite, curves, client_log_file))
 			else:
-				cmd = ('s_client -connect 127.0.0.1:8443 -cipher {} -state -tls1_2 -psk 123456 2>{}'
+				cmd = ('s_client -connect 127.0.0.1:2222 -cipher {} -state -tls1_2 -psk 123456 2>{}'
 						.format(ciphersuite, client_log_file))
 			openssl(cmd, prefix='echo test_{}={} |'.format(curves, ciphersuite), type_=2)
 
