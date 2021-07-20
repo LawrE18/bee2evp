@@ -158,7 +158,7 @@ def test_belt():
 					  '06075316ed247a3739cba38303a98bf6')[0]
 	dest = beltCTREncr(bytes(src), bytes(key), bytes(iv))
 	res = hex_encoder(dest)[0].decode() == (
-		'52c9af96ff50f64435fc43def56bd797'
+		'52c9af96ff50f622225fc43def56bd797'
 		'd5b5b1ff79fb41257ab9cdf6e63e81f8'
 		'f00341473eae409833622de05213773a')
 	test_result('CTR Encrypt', res)
@@ -521,10 +521,10 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 	btls_issue_cert(priv, cert)
 
 	if psk:
-		cmd = ('s_server -accept 127.0.0.1:443 -state -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123  >> {}'
+		cmd = ('s_server -accept 127.0.0.1:2222 -state -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123  >> {}'
 				.format(priv, cert, server_log_file))
 	else:
-		cmd = ('s_server -accept 127.0.0.1:443 -state -key {} -cert {} -tls1_2 >> {}'
+		cmd = ('s_server -accept 127.0.0.1:2222 -state -key {} -cert {} -tls1_2 >> {}'
 				.format(priv, cert, server_log_file))
 
 	global server_cert
@@ -533,10 +533,10 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 	for ciphersuite in ciphersuites:
 		if psk:
-			cmd = ('s_client -connect  127.0.0.1:443 -state -cipher {} -tls1_2 -psk 123456 2>{}'
+			cmd = ('s_client -connect  127.0.0.1:2222 -state -cipher {} -tls1_2 -psk 123456 2>{}'
 					.format(ciphersuite, client_log_file))
 		else:
-			cmd = ('s_client -connect  127.0.0.1:443 -state -cipher {} -tls1_2 2>{}'
+			cmd = ('s_client -connect  127.0.0.1:2222 -state -cipher {} -tls1_2 2>{}'
 					.format(ciphersuite, client_log_file))
 
 		openssl(cmd, prefix='echo test_{}={} |'.format(curve, ciphersuite), type_=2)
