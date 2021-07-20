@@ -22,6 +22,7 @@ import threading
 import time
 from os.path import expanduser
 home = expanduser("~")
+cwd = os.getcwd()
 
 fail = False
 def test_result(test_name, retcode):
@@ -532,10 +533,10 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 	for ciphersuite in ciphersuites:
 		if psk:
-			cmd = ('s_client -connect 127.0.0.1:2222 -cipher {} -tls1_2 -psk 123456 2>{}'
+			cmd = ('s_client -connect $SERVER_IP:2222 -cipher {} -tls1_2 -psk 123456 2>{}'
 					.format(ciphersuite, client_log_file))
 		else:
-			cmd = ('s_client -connect 127.0.0.1:2222 -cipher {} -tls1_2 2>{}'
+			cmd = ('s_client -connect $SERVER_IP:2222 -cipher {} -tls1_2 2>{}'
 					.format(ciphersuite, client_log_file))
 
 		openssl(cmd, prefix='echo test_{}={} |'.format(curve, ciphersuite), type_=2)
@@ -551,17 +552,17 @@ def btls_client_nocert(client_log_file, curves_list, ciphersuites):
 	for ciphersuite in ciphersuites:
 		for curves in curves_list:
 			if curves != 'NULL':
-				cmd = ('s_client -connect 127.0.0.1:2222 -cipher {} -tls1_2 -curves {} -psk 123456 2>{}'
+				cmd = ('s_client -connect $SERVER_IP:2222 -cipher {} -tls1_2 -curves {} -psk 123456 2>{}'
 						.format(ciphersuite, curves, client_log_file))
 			else:
-				cmd = ('s_client -connect 127.0.0.1:2222 -cipher {} -tls1_2 -psk 123456 2>{}'
+				cmd = ('s_client -connect $SERVER_IP:2222 -cipher {} -tls1_2 -psk 123456 2>{}'
 						.format(ciphersuite, client_log_file))
 			openssl(cmd, prefix='echo test_{}={} |'.format(curves, ciphersuite), type_=2)
 
 def test_btls():
 	tmpdirname = tempfile.mkdtemp()
-	server_log_file = os.path.join(tmpdirname, 's_log.txt')
-	client_log_file = os.path.join(tmpdirname, 'c_log.txt')
+	server_log_file = os.path.join(cwd, 's_log.txt')
+	client_log_file = os.path.join(cwd, 'c_log.txt')
 
 	# curves list for test BDHEPSK
 	curves_list_bdhepsk = ['NULL', 'bign-curve256v1', 'bign-curve384v1', 'bign-curve512v1',
@@ -583,7 +584,7 @@ def test_btls():
 		s_nopsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, curve))
 		s_nopsk.run()
-		time.sleep(2)
+		time.sleep(3)
 		c_nopsk = threading.Thread(target=btls_client_cert, 
 						args=(client_log_file, curve, noPSK_cipherssuites))
 		c_nopsk.run()
@@ -591,16 +592,16 @@ def test_btls():
 		# kill openssl s_server
 		os.killpg(os.getpgid(server_cert.pid), signal.SIGTERM)
 	print('End NO_PSK')
-	with open('server_log_file', 'r') as f:
+	with open('s_log.txt', 'r') as f:
 		print(f.read())
-	with open('client_log_file', 'r') as f:
+	with open('c_log.txt', 'r') as f:
 		print(f.read())
 	# test BDHTPSK ciphersuites
 	for curve in curves_list:
 		s_dhtpsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, curve, True))
 		s_dhtpsk.run()
-		time.sleep(2)
+		time.sleep(3)
 		c_dhtpsk = threading.Thread(target=btls_client_cert, 
 						args=(client_log_file, curve, bdhtPSK_ciphersuites, True))
 		c_dhtpsk.run()
@@ -613,7 +614,7 @@ def test_btls():
 	s_dhepsk = threading.Thread(target=btls_server_nocert, 
 					args=(server_log_file,))
 	s_dhepsk.run()
-	time.sleep(2)
+	time.sleep(3)
 	c_dhepsk = threading.Thread(target=btls_client_nocert, 
 					args=(client_log_file, curves_list_bdhepsk, bdhePSK_ciphersuites))
 	c_dhepsk.run()

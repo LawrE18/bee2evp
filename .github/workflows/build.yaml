@@ -19,7 +19,6 @@ jobs:
         run: |
           cd doc
           bash build.sh
-          exec $SHELL
       - name: Check
         run: |
           pwd
@@ -33,3 +32,9 @@ jobs:
           export LD_LIBRARY_PATH="/home/runner/work/bee2evp/bee2evp/build/local/lib:${LD_LIBRARY_PATH:-}"
           export SHELL=/bin/sh
           python3 ./test/test.py
+      - name: Cat
+        if: ${{ failure() }}
+        run: |
+          cat s_log.txt
+          cat c_log.txt
+          ping -c 4 127.0.0.1
