@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Install req
-        run: sudo apt-get install gcc cmake python3 python ca-certificates ufw netstat -y
+        run: sudo apt-get install gcc cmake python3 python ca-certificates ufw -y
       - name: Run build
         run: |
           cd doc
