@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Install req
-        run: sudo apt-get install gcc cmake python3 python ca-certificates ufw -y
+        run: sudo apt-get install gcc cmake python3 python ca-certificates ufw netcat -y
       - name: Run build
         run: |
           cd doc
@@ -35,6 +35,7 @@ jobs:
       - name: Cat
         if: ${{ failure() }}
         run: |
+          nc -z -v 127.0.0.1 2>&1 | grep succeeded
           cat s_log.txt
           cat c_log.txt
           ping -c 4 127.0.0.1
