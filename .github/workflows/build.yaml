@@ -35,7 +35,6 @@ jobs:
       - name: Cat
         if: ${{ failure() }}
         run: |
-          sudo netstat -a | more
           cat s_log.txt
           cat c_log.txt
           ping -c 4 127.0.0.1
