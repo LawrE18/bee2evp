@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Install req
-        run: sudo apt-get install gcc cmake python3 python ca-certificates -y
+        run: sudo apt-get install gcc cmake python3 python ca-certificates ufw -y
       - name: Run build
         run: |
           cd doc
@@ -27,6 +27,9 @@ jobs:
           ls -al
           cd ./build/local
           ls -al
+          sudo ufw allow 80
+          sudo ufw allow 443
+          sudo ufw status verbose
       - name: Run test
         run: |
           export LD_LIBRARY_PATH="/home/runner/work/bee2evp/bee2evp/build/local/lib:${LD_LIBRARY_PATH:-}"
