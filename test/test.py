@@ -464,10 +464,10 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 	btls_issue_cert(priv, cert)
 
 	if psk:
-		cmd = ('s_server -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123'
+		cmd = ('s_server -port 2222 -key {} -cert {} -tls1_2 -psk 123456 -psk_hint 123'
 				.format(priv, cert)) #, server_log_file))
 	else:
-		cmd = ('s_server -key {} -cert {} -tls1_2 >> {}'
+		cmd = ('s_server -port 2222 -key {} -cert {} -tls1_2 >> {}'
 				.format(priv, cert, server_log_file))
 	try:
 		global server_cert
@@ -482,10 +482,10 @@ def btls_server_cert(tmpdirname, server_log_file, curve, psk=False):
 def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 	for ciphersuite in ciphersuites:
 		if psk:
-			cmd = ('s_client -cipher {} -tls1_2 -psk 123456 2>{}'
+			cmd = ('s_client -connect 127.0.0.1:2222 -cipher {} -tls1_2 -psk 123456 2>{}'
 					.format(ciphersuite, client_log_file))
 		else:
-			cmd = ('s_client -cipher {} -tls1_2 2>{}'
+			cmd = ('s_client -connect 127.0.0.1:2222 -cipher {} -tls1_2 2>{}'
 					.format(ciphersuite, client_log_file))
 
 		try:
@@ -495,7 +495,7 @@ def btls_client_cert(client_log_file, curve, ciphersuites, psk=False):
 			print("ERRRROOOORRRR")		
 
 def btls_server_nocert(server_log_file):
-	cmd = ('s_server -tls1_2 -psk 123456 -psk_hint 123 -nocert >> {}'
+	cmd = ('s_server -port 2222 -tls1_2 -psk 123456 -psk_hint 123 -nocert >> {}'
 			.format(server_log_file))
 
 	global server_nocert
@@ -505,10 +505,10 @@ def btls_client_nocert(client_log_file, curves_list, ciphersuites):
 	for ciphersuite in ciphersuites:
 		for curves in curves_list:
 			if curves != 'NULL':
-				cmd = ('s_client -cipher {} -tls1_2 -curves {} -psk 123456 2>{}'
+				cmd = ('s_client -connect 127.0.0.1:2222 -cipher {} -tls1_2 -curves {} -psk 123456 2>{}'
 						.format(ciphersuite, curves, client_log_file))
 			else:
-				cmd = ('s_client -cipher {} -tls1_2 -psk 123456 2>{}'
+				cmd = ('s_client -connect 127.0.0.1:2222 -cipher {} -tls1_2 -psk 123456 2>{}'
 						.format(ciphersuite, client_log_file))
 			openssl(cmd, prefix='echo test_{}={} |'.format(curves, ciphersuite), type_=2)
 
@@ -544,7 +544,7 @@ def test_btls():
 						args=(client_log_file, 'bign-curve256v1', ['DHE-BIGN-WITH-BELT-DWP-HBELT']))
 	c_nopsk.run()
 	# test NO_PSK ciphersuites
-	'''for curve in curves_list:
+	for curve in curves_list:
 		s_nopsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, curve))
 		s_nopsk.run()
@@ -555,10 +555,10 @@ def test_btls():
 
 		# kill openssl s_server
 		os.killpg(os.getpgid(server_cert.pid), signal.SIGTERM)
-	print('End NO_PSK')'''
+	print('End NO_PSK')
 
 	# test BDHTPSK ciphersuites
-	'''for curve in curves_list:
+	for curve in curves_list:
 		s_dhtpsk = threading.Thread(target=btls_server_cert, 
 						args=(tmpdirname, server_log_file, curve, True))
 		s_dhtpsk.run()
@@ -569,10 +569,10 @@ def test_btls():
 
 		# kill openssl s_server
 		os.killpg(os.getpgid(server_cert.pid), signal.SIGTERM)
-	print('End BDHTPSK')'''
+	print('End BDHTPSK')
 
 	# test BDHEPSK ciphersuites
-	'''s_dhepsk = threading.Thread(target=btls_server_nocert, 
+	s_dhepsk = threading.Thread(target=btls_server_nocert, 
 					args=(server_log_file,))
 	s_dhepsk.run()
 	#time.sleep(3)
@@ -582,9 +582,9 @@ def test_btls():
 
 	# kill openssl s_server
 	os.killpg(os.getpgid(server_nocert.pid), signal.SIGTERM)
-	print('End BDHEPSK')'''
+	print('End BDHEPSK')
 
-	'''with open(server_log_file, 'r') as f:
+	with open(server_log_file, 'r') as f:
 		server_out = f.read()
 
 	for ciphersuite in cert_ciphersuites:
@@ -598,20 +598,8 @@ def test_btls():
 		for curves in curves_list_bdhepsk:
 			retcode = (server_out.find('test_{}={}'.format(curves, ciphersuite)) != -1)
 			test_result('	{}'.format(curves), retcode)
-	
-	print('#######')
-	with open(server_log_file, 'r') as f1:
-		print(f1.read())
-	print('#######')
-	with open(client_log_file, 'r') as f2:
-		print(f2.read())'''
-	print('SERVER')
-	with open(server_log_file, 'r') as f1:
-		print(f1.read())
-	print('CLIENT')
-	with open(client_log_file, 'r') as f2:
-		print(f2.read())
-	#shutil.rmtree(tmpdirname)
+
+	shutil.rmtree(tmpdirname)
 
 if __name__ == '__main__':
 	test_version()
