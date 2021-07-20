@@ -35,7 +35,7 @@ jobs:
       - name: Cat
         if: ${{ failure() }}
         run: |
-          nc -z -v 127.0.0.1 2>&1 | grep succeeded
+          sudo nc -z -v 127.0.0.1
           cat s_log.txt
           cat c_log.txt
           ping -c 4 127.0.0.1
