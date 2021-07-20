@@ -34,9 +34,9 @@ jobs:
           export SHELL=/bin/sh
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl genpkey -algorithm bign -pkeyopt params:bign-curve256v1 -out priv256.key
           /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl req -days 365 -x509 -subj "/CN=www.example.org/O=BCrypto/C=BY/ST=MINSK" -new -key priv256.key -nodes -out cert.pem
-          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_server -quiet -port 2222 -key priv256.key -cert cert.pem -tls1_2 -state > $HOME/out.txt -4 &
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_server -quiet -port 443 -key priv256.key -cert cert.pem -tls1_2 -state > $HOME/out.txt -4 &
           sleep 3
-          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -quiet -connect $SERVER_IP:2222 -cipher DHE-BIGN-WITH-BELT-CTR-MAC-HBELT -tls1_2 -state
+          /home/runner/work/bee2evp/bee2evp/build/local/bin/openssl s_client -quiet -connect $SERVER_IP:443 -cipher DHE-BIGN-WITH-BELT-CTR-MAC-HBELT -tls1_2 -state
       - name: Cat
         if: ${{ failure() }}
         run: |
