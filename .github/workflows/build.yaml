@@ -19,6 +19,7 @@ jobs:
         run: |
           cd doc
           bash build.sh
+          exec $SHELL
       - name: Check
         run: |
           pwd
