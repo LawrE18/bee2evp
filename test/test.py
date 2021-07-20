@@ -591,7 +591,10 @@ def test_btls():
 		# kill openssl s_server
 		os.killpg(os.getpgid(server_cert.pid), signal.SIGTERM)
 	print('End NO_PSK')
-
+	with open('server_log_file', 'r') as f:
+		print(f.read())
+	with open('client_log_file', 'r') as f:
+		print(f.read())
 	# test BDHTPSK ciphersuites
 	for curve in curves_list:
 		s_dhtpsk = threading.Thread(target=btls_server_cert, 
